@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <!-- success -->
+   <div id="toast"></div>
+    <!-- info -->
+    <!-- <div class="toast toast--info">
+        <div class="toast__icon toast--icon--info">
+            <i class="fas fa-times-circle"></i>s
+        </div>
+        <div class="toast__body">
+            <h3 class="toast__title">Success</h3>
+            <p class="toast__mess">Các bạn subscribe kênh Youtubes</p>
+        </div>
+        <div class="toast__close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div> -->
+    <!-- warn -->
+    <!-- <div class="toast toast--warn">
+        <div class="toast__icon toast--icon--warn">
+            <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="toast__body">
+            <h3 class="toast__title">Success</h3>
+            <p class="toast__mess">Các bạn subscribe kênh Youtubes</p>
+        </div>
+        <div class="toast__close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div> -->
+
+    <div onclick="showSuccess();" class="btn btn--success">show massage</div>
+    <div onclick="showInfo();" class="btn btn--info">show massage</div>
+    <div onclick="showWarn();" class="btn btn--warn">show massage</div>
+    <script>
+        //toast function
+        function toast({
+            title ='',
+            message ='',
+            type = 'info',
+            duration = 3000
+        }){
+            var main = document.getElementById('toast')
+            if(main){
+                const toast = document.createElement('div');
+                const delay = (duration/1000).toFixed(2);
+                const icon = {
+                    success: 'fas fa-check-circle',
+                    info: 'fas fa-info-circle',
+                    warn: 'fas fa-exclamation-circle'
+                }
+                toast.classList.add('toast',`toast--${type}`);
+                toast.style.animation = `slide-left ease .3s,fade-out linear 1s ${delay}s forwards`;
+                toast.innerHTML = `
+                    <div class="toast__icon toast--icon--${type}">
+                        <i class="${icon[type]}"></i>
+                    </div>
+                    <div class="toast__body">
+                        <h3 class="toast__title">${title}</h3>
+                        <p class="toast__mess">${message}</p>
+                    </div>
+                    <div class="toast__close">
+                        <i class="fas fa-times"></i>
+                    </div>
+                `;
+                main.appendChild(toast) //thêm con vào 
+                //remove sau khoảng thời gian nhất định
+                const remove = (duration+1000)
+                const removeToast = setTimeout(function(){
+                    main.removeChild(toast)
+                },remove)
+                //remove toast when click is clicked
+                toast.addEventListener('click',(e)=>{
+                    if(e.target.closest('.toast__close')){
+                        main.removeChild(toast)
+                    }
+                    clearTimeout(removeToast)
+                    console.log(e.target)
+                })
+            }
+        }
+
+        function showSuccess(){
+            toast({
+            title: 'success',
+            message: 'Các bạn subscribe kênh Youtubes',
+            type: 'success',
+            duration: 5000
+        })
+        }
+        function showInfo(){
+            toast({
+            title: 'info',
+            message: 'Các bạn subscribe kênh Youtubes',
+            type: 'info',
+            duration: 5000
+        })
+        }
+        function showWarn(){
+            toast({
+            title: 'warn',
+            message: 'Các bạn subscribe kênh Youtubes',
+            type: 'warn',
+            duration: 5000
+        })
+        }
+        
+
+    </script>
+</body>
+</html>
